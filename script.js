@@ -5,6 +5,7 @@ function createToDo(title, description, dueDate, priority, project, completedSta
     let _priority = priority;
     let _project = project;
     let _completedStatus = completedStatus;
+    let _id = crypto.randomUUID();
     
     return {
         getTitle() { 
@@ -42,6 +43,10 @@ function createToDo(title, description, dueDate, priority, project, completedSta
         },
         setCompletedStatus() {
             _completedStatus = !_completedStatus;
+        },
+        getID() {
+            return _id;
         }
     }
 }
+
