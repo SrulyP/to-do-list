@@ -51,12 +51,7 @@ function findProjectByID(projectID) {
             return project;
         }
     }
-    return 'Incorrect projectID or project not found'
+    return null;
 }
 
-function addTaskToProject(projectID, taskID) {
-}
-
-function removeTaskFromProject(projectID, taskID) {
-
-}
+export { createProjectFactory, findProjectByID }
