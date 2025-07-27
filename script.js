@@ -1,4 +1,4 @@
-function createTodo(title, description, dueDate, priority, project, completedStatus = false) {
+function createToDo(title, description, dueDate, priority, project, completedStatus = false) {
     let _title = title;
     let _description = description;
     let _dueDate = dueDate;
@@ -40,8 +40,8 @@ function createTodo(title, description, dueDate, priority, project, completedSta
         getCompletedStatus() {
             return _completedStatus
         },
-        setCompletedStatus(newCompletedStatus) {
-            _completedStatus = newCompletedStatus;
+        setCompletedStatus() {
+            _completedStatus = !_completedStatus;
         }
     }
 }
