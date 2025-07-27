@@ -1,3 +1,5 @@
+import * as Projects from './projects.js';
+
 let tasks = [];
 
 function createTask(title, description, dueDate, priority, project, completedStatus = false) {
@@ -59,11 +61,13 @@ function findTaskByID(taskID) {
             return task;
         }
     }
-    return 'Incorrect taskID or task not found'
+    return null;
 }
 
 function addTaskToProject(projectID, taskID) {
-
+    const project = Projects.findProjectByID(projectID);
+    const task = findTaskByID(taskID);
+    project.pushTask(task);
 }
 
 function removeTaskFromProject(projectID, taskID) {
