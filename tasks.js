@@ -1,8 +1,7 @@
-import * as Projects from './projects.js';
 
 let tasks = [];
 
-function createTask(title, description, dueDate, priority, project, completedStatus = false) {
+function createTask(title, description=null, dueDate=null, priority=1, project=null, completedStatus = false) {
     let _title = title;
     let _description = description;
     let _dueDate = dueDate;
@@ -54,7 +53,6 @@ function createTask(title, description, dueDate, priority, project, completedSta
     }
 }
 
-
 function findTaskByID(taskID) {
     for (const task of tasks) {
         if (task.getID() === taskID) {
@@ -64,14 +62,4 @@ function findTaskByID(taskID) {
     return null;
 }
 
-function addTaskToProject(projectID, taskID) {
-    const project = Projects.findProjectByID(projectID);
-    const task = findTaskByID(taskID);
-    project.pushTask(task);
-}
-
-function removeTaskFromProject(projectID, taskID) {
-
-}
-
-export { createTask, findTaskByID, addTaskToProject, removeTaskFromProject };
+export { createTask, findTaskByID };
