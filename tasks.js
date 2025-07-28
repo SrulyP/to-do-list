@@ -76,4 +76,8 @@ function deleteTask(taskID){
     }
 }
 
-export { createTask, findTaskByID, deleteTask };
+function getTasks() {
+    return tasks;
+}
+
+export { createTask, findTaskByID, deleteTask, getTasks };
