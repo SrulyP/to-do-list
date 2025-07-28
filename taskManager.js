@@ -1,6 +1,27 @@
 import * as Projects from './projects.js';
 import * as Tasks from './tasks.js';
+import * as Storage from './storage.js';
 
+const taskManager = {
+    init: function() {
+
+        this.cacheDom();
+        this.bindEvents();
+        this.render();
+        Storage.loadTasksFromStorage();
+        Storage.loadProjectsFromStorage();
+    },
+
+    cacheDom: function() {
+
+    },
+    bindEvents: function() {
+
+    },
+    render: function() {
+
+    },
+}
 
 function removeTaskFromProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
@@ -11,6 +32,7 @@ function removeTaskFromProject(projectID, taskID) {
         tasksArray.splice(index, 1);
     }
 }
+
 
 function addTaskToProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
