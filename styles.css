@@ -1,0 +1,46 @@
+/* ==================================== Root and All ==================================== */
+
+:root {
+    --lavender-1: #fffaff;
+    --lavender-2: #a9a1b6;
+    --lavender-3: #7f788b;
+    --lavender-4: #352f40;
+    --lavender-5: #1f1a2a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+html, body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+/* ==================================== Header ==================================== */
+
+header {
+    font-size: 1.5rem;
+    padding: 15px;
+    text-align: center;
+    background-color: var(--lavender-4);
+    color: var(--lavender-2);
+    letter-spacing: .2rem;
+}
+
+/* ==================================== Main and Footer ==================================== */
+
+main {
+    flex: 1;
+    background-color: var(--lavender-1);
+}
+
+footer {
+    padding: 10px;
+    background-color: var(--lavender-4);
+    color: var(--lavender-2);
+}
