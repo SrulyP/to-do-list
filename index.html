@@ -15,7 +15,21 @@
         <aside>
             <section class="home"><h1>Default</h1></section>
             <section class="projects">
-                <button>New Project</button>
+                <button id="add-project-btn">New Project</button>
+                <dialog id="add-project-dialog">
+                    <form class="add-project-form">
+                        <div class="form-row">
+                            <label for="project-title">Title</label>
+                            <input type="text" name="project-title" id="project-title" maxlength="60" minlength="1" required> 
+                        </div>
+                        <div class="form-row">
+                            <label for="project-description">Description</label>
+                            <input type="text" name="project-description" id="project-description" maxlength="800" minlength="0"> 
+                        </div>  
+                        <button class="project-cancel-btn" value="cancel" formmethod="dialog">Cancel</button>
+                        <button class="project-confirm-btn" type="submit">Confirm</button> 
+                    </form>
+                </dialog>
                 <div class="projects-container">
                     <button><span>Test Project</span><span>Edit</span><span>Delete</span></button>
                     <button><span>Test Project 2</span><span>Edit</span><span>Delete</span></button>
@@ -25,7 +39,40 @@
         <div class="center">
             <div class="top">
                 <div class="project-name">Project Name</div>
-                <button>Add Task</button>
+                <button id="add-task-btn">Add Task</button>
+                <dialog id="add-task-dialog">
+                    <form class="add-task-form">
+                        <div class="form-row">
+                            <label for="task-title">Title</label>
+                            <input type="text" name="task-title" id="task-title" maxlength="60" minlength="1" required> 
+                        </div>
+                        <div class="form-row">
+                            <label for="task-description">Description</label>
+                            <input type="text" name="task-description" id="task-description" maxlength="800" minlength="0"> 
+                        </div> 
+                        <div class="form-row">
+                            <label for="due-date">Due Date</label>
+                            <input type="date" name="due-date" id="due-date">
+                        </div>
+                        <div class="form-row">
+                            <label for="priority">Priority</label>
+                            <select name="priority" id="priority">
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Urgent</option>
+                            </select>
+                        </div> 
+                        <div class="form-row">
+                            <label for="task-project">Project</label>
+                            <select name="task-project" id="task-project">
+                                <option value="default">Default</option>
+                                <option value="test-project">Test Project</option>
+                            </select>
+                        </div> 
+                        <button class="task-cancel-btn" value="cancel" formmethod="dialog">Cancel</button>
+                        <button class="task-confirm-btn" type="submit">Confirm</button> 
+                    </form>
+                </dialog>
             </div>
         </div>
         <div class="bottom">
@@ -34,7 +81,7 @@
                     <div class="top-row">
                         <div class="task-title">Title</div>
                         <div class="task-priority"></div>
-                        <label class="task-status"><input type="checkbox" class="todo-complete">Complete Task</label>
+                        <label class="task-status"><input type="checkbox" class="task-complete">Complete Task</label>
                     </div>
                     <div class="bottom-row">
                         <div class="task-due-date">Date</div>
@@ -49,5 +96,5 @@
     </main>
     <footer>&copy; SrulyP 2025</footer>
 </body>
-<script src="taskManager.js"></script>
+<script type="module" src="taskManager.js"></script>
 </html>
