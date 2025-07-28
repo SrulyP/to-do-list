@@ -43,7 +43,9 @@ function findProjectByID(projectID) {
 function deleteProject(projectID) {
     const project = findProjectByID(projectID);
     const index = projects.indexOf(project);
-    projects.splice(index, 1);
+    if (project) {
+        projects.splice(index, 1);
+    }
 }
 
 export { createProjectFactory, findProjectByID, deleteProject }
