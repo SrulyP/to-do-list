@@ -1,4 +1,4 @@
-let projects = [createProjectFactory()];
+let projects = [];
 
 function createProjectFactory(title, description=null, tasksArray=[], id=null) {
     let _title = title;
@@ -53,4 +53,8 @@ function deleteProject(projectID) {
     }
 }
 
-export { createProjectFactory, findProjectByID, deleteProject }
+function getProjects() {
+    return projects;
+}
+
+export { createProjectFactory, findProjectByID, deleteProject, getProjects }
