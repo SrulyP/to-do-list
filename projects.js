@@ -1,10 +1,8 @@
-let projects = [];
+let projects = [createProjectFactory()];
 
-function createProjectFactory(title, description, dueDate, completedStatus = false, tasksArray = []) {
+function createProjectFactory(title, description=null, tasksArray=[]) {
     let _title = title;
     let _description = description;
-    let _dueDate = dueDate;
-    let _completedStatus = completedStatus;
     let _tasksArray = tasksArray;
     let _id = crypto.randomUUID();
 
@@ -20,18 +18,6 @@ function createProjectFactory(title, description, dueDate, completedStatus = fal
         },
         setDescription(newDescription) {
             _description = newDescription;
-        },
-        getDueDate() {
-            return _dueDate;
-        },
-        setDueDate(newDueDate) {
-            _dueDate = newDueDate;
-        },
-        getCompletedStatus() {
-            return _completedStatus
-        },
-        setCompletedStatus() {
-            _completedStatus = !_completedStatus;
         },
         getTasks() {
             return _tasksArray;
@@ -54,4 +40,10 @@ function findProjectByID(projectID) {
     return null;
 }
 
-export { createProjectFactory, findProjectByID }
+function deleteProject(projectID) {
+    const project = findProjectByID(projectID);
+    const index = projects.indexOf(project);
+    projects.splice(index, 1);
+}
+
+export { createProjectFactory, findProjectByID, deleteProject }
