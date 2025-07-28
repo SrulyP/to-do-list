@@ -19,8 +19,8 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100%;
-
 }
+
 /* ==================================== Header ==================================== */
 
 header {
@@ -44,3 +44,28 @@ footer {
     background-color: var(--lavender-4);
     color: var(--lavender-2);
 }
+
+/* ==================================== Projects ==================================== */
+
+/* --------------------- Add Project Button --------------------- */
+
+#add-project-btn {
+    display: block;
+    width: 150px;
+    height: 35px;
+    border-radius: 20px;
+    border: transparent;
+    /* background-color: var(); */
+    font-weight:600;
+    font-size: 1.1rem;
+    margin: auto;
+    margin-top: 20px;
+}
+
+/* #add-project-btn:hover {
+    background-color: var(--orange);    
+}
+
+#add-project-btn:active {
+    background-color: var(--flame);    
+} */
