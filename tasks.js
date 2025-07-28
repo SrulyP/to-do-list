@@ -1,7 +1,7 @@
 
 let tasks = [];
 
-function createTask(title, description=null, dueDate=null, priority=1, project=null, completedStatus = false) {
+function createTask(title, description=null, dueDate=null, priority=3, project=null, completedStatus = false) {
     let _title = title;
     let _description = description;
     let _dueDate = dueDate;
@@ -62,4 +62,12 @@ function findTaskByID(taskID) {
     return null;
 }
 
-export { createTask, findTaskByID };
+function deleteTask(taskID){
+    const task = findTaskByID(taskID);
+    const index = tasks.indexOf(task);
+    if (task) {
+        tasks.splice(index, 1);
+    }
+}
+
+export { createTask, findTaskByID, deleteTask };
