@@ -14,8 +14,8 @@ function removeTaskFromProject(projectID, taskID) {
 
 function addTaskToProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
+    const task = Tasks.findTaskByID(taskID)
     if (project && task) {
-        const task = Tasks.findTaskByID(taskID)
+        project.pushTask(task);
     }
-    project.pushTask(task);
 }
