@@ -41,3 +41,5 @@ function addTaskToProject(projectID, taskID) {
         project.pushTask(task);
     }
 }
+
+taskManager.init();
