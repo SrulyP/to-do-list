@@ -10,10 +10,44 @@
     <title>To-Do List</title>
 </head>
 <body>
-    <header><h1>To-Do List</h1></header>
+    <header><h1>To-Do Task List</h1></header>
     <main>
-        
+        <aside>
+            <section class="home"><h1>Default</h1></section>
+            <section class="projects">
+                <button>New Project</button>
+                <div class="projects-container">
+                    <button><span>Test Project</span><span>Edit</span><span>Delete</span></button>
+                    <button><span>Test Project 2</span><span>Edit</span><span>Delete</span></button>
+                </div>
+            </section>
+        </aside>
+        <div class="center">
+            <div class="top">
+                <div class="project-name">Project Name</div>
+                <button>Add Task</button>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="tasks-container">
+                <div class="task-card">
+                    <div class="top-row">
+                        <div class="task-title">Title</div>
+                        <div class="task-priority"></div>
+                        <label class="task-status"><input type="checkbox" class="todo-complete">Complete Task</label>
+                    </div>
+                    <div class="bottom-row">
+                        <div class="task-due-date">Date</div>
+                        <div class="edit-task">Edit</div>
+                        <div class="delete-task">Delete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
     </main>
+    <footer>&copy; SrulyP 2025</footer>
 </body>
-<script src="script.js"></script>
+<script src="taskManager.js"></script>
 </html>
