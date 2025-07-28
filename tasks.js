@@ -1,14 +1,20 @@
 
 let tasks = [];
 
-function createTask(title, description=null, dueDate=null, priority=3, project=null, completedStatus = false) {
+function createTask(title, description=null, dueDate=null, priority=3, project=null, completedStatus = false, id=null) {
     let _title = title;
     let _description = description;
     let _dueDate = dueDate;
     let _priority = priority;
     let _project = project;
     let _completedStatus = completedStatus;
-    let _id = crypto.randomUUID();
+    let _id;
+    if (id === null) {
+        _id = crypto.randomUUID();
+    } else {
+        _id = id;
+    }
+    
     
     return {
         getTitle() { 

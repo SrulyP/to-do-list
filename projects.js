@@ -1,11 +1,16 @@
 let projects = [createProjectFactory()];
 
-function createProjectFactory(title, description=null, tasksArray=[]) {
+function createProjectFactory(title, description=null, tasksArray=[], id=null) {
     let _title = title;
     let _description = description;
     let _tasksArray = tasksArray;
-    let _id = crypto.randomUUID();
-
+    let _id;
+    if (id === null) {
+        _id = crypto.randomUUID();
+    } else {
+        _id = id;
+    }
+    
     return {
         getTitle() { 
             return _title;
