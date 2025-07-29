@@ -34,20 +34,26 @@ header {
     padding: 15px;
     text-align: center;
     background-color: var(--lavender-4);
-    color: var(--lavender-2);
+    color: var(--lavender-delete);
     letter-spacing: .2rem;
+    text-shadow: 1px 1px 1px var(--lavender-2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    border-bottom: 2px solid var(--lavender-2);
 }
 
 main {
     display: flex;
     flex: 1;
     background-color: var(--lavender-1);
+    overflow: hidden;
 }
 
 footer {
     padding: 10px;
     background-color: var(--lavender-4);
     color: var(--lavender-2);
+    border-top: 2px solid var(--lavender-2);
+
 }
 
 /* ==================================== Projects ==================================== */
@@ -86,6 +92,8 @@ aside {
     padding: 10px;
     width: 40vw;
     max-width: 300px;
+    border-right: 2px solid var(--lavender-2);
+
 }
 
 /* -------------- Project Links -------------- */
@@ -166,4 +174,70 @@ aside {
 .other-projects > a > span:nth-child(3):hover {
     background-color: var(--lavender-delete);
     color: var(--lavender-1);
+}
+
+/* ==================================== Tasks ==================================== */
+ 
+/* --------------------- Center and Top --------------------- */
+.center-and-bottom {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.center-project-name {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--lavender-5);
+}
+
+.center-project-description {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--lavender-3);
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* -------------- Add Task Button -------------- */
+
+#add-task-btn {
+    display: block;
+    width: 150px;
+    height: 35px;
+    border-radius: 10px;
+    border: transparent;
+    background-color: var(--lavender-4);
+    color: var(--lavender-1);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#add-task-btn:hover {
+    background-color: var(--lavender-3);
+}
+
+#add-task-btn:active {
+    background-color: var(--lavender-2);
+}
+
+/* ==================================== Task Card ==================================== */
+
+.task-card {
+    display: flex;
+    border: 2px solid var(--lavender-3);
+    border-radius: 10px;
+    padding: 15px;
+    width: 40vw
 }
