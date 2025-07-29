@@ -35,6 +35,7 @@ header {
 /* ==================================== Main and Footer ==================================== */
 
 main {
+    display: flex;
     flex: 1;
     background-color: var(--lavender-1);
 }
@@ -47,7 +48,44 @@ footer {
 
 /* ==================================== Projects ==================================== */
 
-/* --------------------- Add Project Button --------------------- */
+/* --------------------- Aside --------------------- */
+
+aside {
+    background-color: var(--lavender-5);
+    padding: 10px;
+    width: 40vw;
+    max-width: 300px;
+}
+
+/* -------------- Project Links -------------- */
+
+.default {
+    padding: 10px;
+    color: var(--lavender-1);
+}
+
+.other-projects {
+    margin-top: 10px;
+    color: var(--lavender-2);
+    display: flex;
+    flex-direction: column;
+}
+
+.other-projects > a {
+    color: var(--lavender-2);
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+    padding: 10px;  
+}
+
+.other-projects > a > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* -------------- Add Project Button -------------- */
 
 #add-project-btn {
     display: block;
@@ -63,9 +101,10 @@ footer {
 }
 
 /* #add-project-btn:hover {
-    background-color: var(--orange);    
+    background-color: var();    
 }
 
 #add-project-btn:active {
-    background-color: var(--flame);    
+    background-color: var();    
 } */
+
