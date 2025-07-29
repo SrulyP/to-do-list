@@ -96,6 +96,8 @@ aside {
 
 .default {
     padding: 10px;
+    padding-left: 14px;
+    padding-right: 50px;
     color: var(--lavender-1);
     text-decoration: none;
     border-radius: 6px;
@@ -119,7 +121,7 @@ aside {
     color: var(--lavender-2);
     display: grid;
     gap: 2px;
-    grid-template-columns: 4fr 1fr 1fr;
+    grid-template-columns: 1fr auto auto;
     padding: 10px;
     border-radius: 6px;
     transition: 0.2s ease;
@@ -134,9 +136,6 @@ aside {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: flex; 
-    align-items: center;      /* centers the icons */
-    justify-content: center;
     padding: 4px 8px;
     border-radius: 4px;
     transition: 0.2s ease;
@@ -145,8 +144,16 @@ aside {
 
 /* project name */
 .other-projects > a > span:first-child {
-    justify-content: flex-start;
+    text-align: left;
     padding-left: 4px;
+}
+
+/* icons  */
+.other-projects > a > span:nth-child(2),
+.other-projects > a > span:nth-child(3) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Edit icon */
@@ -160,4 +167,3 @@ aside {
     background-color: var(--lavender-delete);
     color: var(--lavender-1);
 }
-
