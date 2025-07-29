@@ -6,6 +6,11 @@
     --lavender-3: #7f788b;
     --lavender-4: #352f40;
     --lavender-5: #1f1a2a;
+
+    --lavender-hover: #c4bcd1;
+    --lavender-edit: #99aeec;
+    --lavender-delete: #e5a3a3;
+    --lavender-bg-hover: #2a243a;
 }
 
 * {
@@ -21,7 +26,8 @@ html, body {
     height: 100%;
 }
 
-/* ==================================== Header ==================================== */
+
+/* ==================================== Header, Main, and Footer  ==================================== */
 
 header {
     font-size: 1.5rem;
@@ -31,8 +37,6 @@ header {
     color: var(--lavender-2);
     letter-spacing: .2rem;
 }
-
-/* ==================================== Main and Footer ==================================== */
 
 main {
     display: flex;
@@ -48,6 +52,33 @@ footer {
 
 /* ==================================== Projects ==================================== */
 
+
+/* -------------- Add Project Button -------------- */
+
+#add-project-btn {
+    display: block;
+    width: 150px;
+    height: 35px;
+    border-radius: 10px;
+    border: transparent;
+    background-color: var(--lavender-3);
+    color: var(--lavender-1);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#add-project-btn:hover {
+    background-color: var(--lavender-4);
+}
+
+#add-project-btn:active {
+    background-color: var(--lavender-5);
+}
+
 /* --------------------- Aside --------------------- */
 
 aside {
@@ -59,9 +90,21 @@ aside {
 
 /* -------------- Project Links -------------- */
 
+.projects {
+    margin-top: 30px;
+}
+
 .default {
     padding: 10px;
     color: var(--lavender-1);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.default:hover {
+    background-color: var(--lavender-bg-hover);
+    color: var(--lavender-hover);
 }
 
 .other-projects {
@@ -69,42 +112,52 @@ aside {
     color: var(--lavender-2);
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 .other-projects > a {
     color: var(--lavender-2);
     display: grid;
+    gap: 2px;
     grid-template-columns: 4fr 1fr 1fr;
-    padding: 10px;  
+    padding: 10px;
+    border-radius: 6px;
+    transition: 0.2s ease;
+}
+
+.other-projects > a:hover {
+    background-color: var(--lavender-bg-hover);
+    color: var(--lavender-hover);
 }
 
 .other-projects > a > span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex; 
+    align-items: center;      /* centers the icons */
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: 0.2s ease;
+    cursor: pointer;
 }
 
-
-/* -------------- Add Project Button -------------- */
-
-#add-project-btn {
-    display: block;
-    width: 150px;
-    height: 35px;
-    border-radius: 20px;
-    border: transparent;
-    /* background-color: var(); */
-    font-weight:600;
-    font-size: 1.1rem;
-    margin: auto;
-    margin-top: 20px;
+/* project name */
+.other-projects > a > span:first-child {
+    justify-content: flex-start;
+    padding-left: 4px;
 }
 
-/* #add-project-btn:hover {
-    background-color: var();    
+/* Edit icon */
+.other-projects > a > span:nth-child(2):hover {
+    background-color: var(--lavender-edit);
+    color: var(--lavender-1);
 }
 
-#add-project-btn:active {
-    background-color: var();    
-} */
+/* Delete icon */
+.other-projects > a > span:nth-child(3):hover {
+    background-color: var(--lavender-delete);
+    color: var(--lavender-1);
+}
 
