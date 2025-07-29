@@ -93,6 +93,8 @@ aside {
     width: 40vw;
     max-width: 300px;
     border-right: 2px solid var(--lavender-2);
+    overflow-y: auto;
+    overflow-x: hidden;
 
 }
 
@@ -218,7 +220,6 @@ aside {
     color: var(--lavender-1);
     font-weight: 600;
     font-size: 1.1rem;
-    margin: auto;
     margin-top: 20px;
     cursor: pointer;
     transition: 0.2s ease;
@@ -234,10 +235,48 @@ aside {
 
 /* ==================================== Task Card ==================================== */
 
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .task-card {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
     border: 2px solid var(--lavender-3);
     border-radius: 10px;
     padding: 15px;
-    width: 40vw
+    max-width: 500px;
+}
+
+.top-row {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.02rem;
+    color: var(--lavender-4);
+}
+
+.bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto auto;
+    color: var(--lavender-3);
+    font-weight: 400;
+}
+
+.edit-and-remove {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start
+}
+
+
+@media only screen and (max-width: 600px){
+    .bottom-row {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        justify-self: left;
+    }
 }
