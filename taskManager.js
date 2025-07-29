@@ -19,8 +19,8 @@ const taskManager = {
         this.addTaskBtn = document.querySelector("#add-task-btn");
         this.taskDialog = document.querySelector('#add-task-dialog');
         this.taskForm = document.querySelector('.add-task-form');
-        this.projectCancelBtn = document.querySelectorAll('.project-cancel-btn');
-        this.taskCancelBtn = document.querySelectorAll('.task-cancel-btn');
+        this.projectCancelBtn = document.querySelector('.project-cancel-btn');
+        this.taskCancelBtn = document.querySelector('.task-cancel-btn');
 
 
     },
