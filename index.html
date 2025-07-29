@@ -7,15 +7,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8716932c34.js" crossorigin="anonymous"></script>
     <title>To-Do List</title>
 </head>
 <body>
     <header><h1>To-Do Task List</h1></header>
     <main>
         <aside>
-            <section class="home"><h1>Default</h1></section>
+            <button id="add-project-btn">New Project</button>
             <section class="projects">
-                <button id="add-project-btn">New Project</button>
                 <dialog id="add-project-dialog">
                     <form class="add-project-form">
                         <div class="form-row">
@@ -30,9 +30,10 @@
                         <button class="project-confirm-btn" type="submit">Confirm</button> 
                     </form>
                 </dialog>
-                <div class="projects-container">
-                    <button><span>Test Project</span><span>Edit</span><span>Delete</span></button>
-                    <button><span>Test Project 2</span><span>Edit</span><span>Delete</span></button>
+                <a class="default">Default</a>
+                <div class="other-projects">
+                    <a><span>Test Project</span><span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash-can"></i></span></a>
+                    <a><span>Test Project 2</span><span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash-can"></i></span></a>
                 </div>
             </section>
         </aside>
