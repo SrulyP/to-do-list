@@ -19,7 +19,6 @@ function loadTasksFromStorage() {
             Tasks.tasks.push(task);
         });
     } else {
-        // Tasks.tasks.push(firstTask, secondTask);
         saveTasksToStorage();
     }
 }
@@ -39,7 +38,7 @@ function loadProjectsFromStorage() {
             Projects.projects.push(project);
         });
     } else {
-        this.saveProjectsToStorage();
+        saveProjectsToStorage(); // save the default projects to storage
     }
 }
 
@@ -67,9 +66,10 @@ function saveProjectsToStorage() {
 }
 
 function clearStorage() {
-    localStorage.removeItem(this.storageKey);
-    Projects.projects = [];
-    Tasks.tasks = [];
+    localStorage.removeItem('tasks');
+    localStorage.removeItem('projects');
+    Projects.projects.length = 0;
+    Tasks.tasks.length = 0;
 }
 
 export { loadTasksFromStorage, loadProjectsFromStorage, saveTasksToStorage, saveProjectsToStorage, clearStorage };
