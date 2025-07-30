@@ -57,4 +57,14 @@ function getProjects() {
     return projects;
 }
 
-export { createProjectFactory, findProjectByID, deleteProject, getProjects, projects }
+function initializeDefaultProjects() {
+    if (projects.length === 0) {
+        const cake = createProjectFactory("Bake a cake", "Buy the ingredients to bake a cake");
+        const cookies = createProjectFactory("Cookies", "Finish the cookies in the fridge");
+        projects.push(cake, cookies);
+    }
+}
+
+initializeDefaultProjects();
+
+export { createProjectFactory, findProjectByID, deleteProject, getProjects, projects, initializeDefaultProjects }
