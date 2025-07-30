@@ -34,13 +34,12 @@ const taskManager = {
     },
 }
 
-
 const projectManager = {
     init: function() {
         this.cacheDom();
         this.bindEvents();
-        this.render();
         Storage.loadProjectsFromStorage();
+        this.render();
     },
     cacheDom: function() {
         this.addProjectBtn = document.querySelector("#add-project-btn");
@@ -49,13 +48,18 @@ const projectManager = {
         this.projectCancelBtn = document.querySelector('.project-cancel-btn');
 
         this.sideProjectNames = document.querySelectorAll('.side-project-name');
-        this.sideProjectEdit = document.querySelector('.side-project-edit');
-        this.sideProjectDelete = document.querySelector('.side-project-delete');
+        this.sideProjectEdits = document.querySelectorAll('.side-project-edit');
+        this.sideProjectDeletes = document.querySelectorAll('.side-project-delete');
         this.centerProjectName = document.querySelector('.center-project-name');
         this.centerProjectDescription = document.querySelector('.center-project-description');
+        
+        this.projectsContainer = document.querySelector('.other-projects');
     },
     bindEvents: function() {
-        this.addProjectBtn.addEventListener("click", () => this.projectDialog.showModal());
+        this.addProjectBtn.addEventListener("click", () => {
+            this.projectForm.reset();
+            this.projectDialog.showModal()}
+        );
         this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
         
         this.sideProjectNames.forEach(span => {
@@ -66,10 +70,9 @@ const projectManager = {
         });
     },
     render: function() {
-
+        this.projectsContainer.innerHTML = '';
     },
 }
-
 
 function removeTaskFromProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
