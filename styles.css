@@ -8,9 +8,8 @@
     --lavender-5: #1f1a2a;
 
     --lavender-hover: #c4bcd1;
-    --lavender-edit: #99aeec;
-    --lavender-delete: #e5a3a3;
     --lavender-bg-hover: #2a243a;
+    --pink-1: #e5a3a3;
 }
 
 * {
@@ -34,7 +33,7 @@ header {
     padding: 15px;
     text-align: center;
     background-color: var(--lavender-4);
-    color: var(--lavender-delete);
+    color: var(--pink-1);
     letter-spacing: .2rem;
     text-shadow: 1px 1px 1px var(--lavender-2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
@@ -168,13 +167,11 @@ aside {
 
 /* Edit icon */
 .other-projects > a > span:nth-child(2):hover {
-    background-color: var(--lavender-edit);
     color: var(--lavender-1);
 }
 
 /* Delete icon */
 .other-projects > a > span:nth-child(3):hover {
-    background-color: var(--lavender-delete);
     color: var(--lavender-1);
 }
 
@@ -385,13 +382,11 @@ dialog::backdrop {
 }
 
 .card-edit-task:hover {
-    background-color: var(--lavender-edit);
-    color: var(--lavender-1);
+    color: var(--lavender-2);
 }
 
 .card-delete-task:hover {
-    background-color: var(--lavender-delete);
-    color: var(--lavender-1);
+    color: var(--lavender-2);
 }
 
 /* ==================================== Checkbox Styling ==================================== */
