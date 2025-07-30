@@ -263,12 +263,15 @@ aside {
     grid-template-columns: 1fr 1fr 1fr auto auto;
     color: var(--lavender-3);
     font-weight: 400;
+    align-items: flex-end;
 }
+
 
 .edit-and-remove {
     display: flex;
     align-items: center;
-    justify-content: flex-start
+    justify-content: flex-start;
+    gap: 5px;
 }
 
 
@@ -276,15 +279,145 @@ input[type="checkbox"] {
     margin-right: 5px;
 }
 
+
+/* ==================================== Dialog Forms ==================================== */
+
+dialog {
+    border: 2px solid var(--lavender-3);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--lavender-1);
+    width: 300px;
+    max-width: 90vw;
+    justify-self: center;
+    align-self: center;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* ==================================== Forms ==================================== */
+
+.add-project-form,
+.add-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-row label {
+    font-weight: 600;
+    color: var(--lavender-4);
+    font-size: 0.9rem;
+}
+
+.form-row input,
+.form-row select {
+    padding: 8px;
+    border: 1px solid var(--lavender-3);
+    border-radius: 5px;
+    background-color: var(--lavender-1);
+    color: var(--lavender-4);
+    font-size: 0.9rem;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    outline: none;
+    border-color: var(--lavender-4);
+}
+
+/* Form Buttons */
+.project-cancel-btn,
+.task-cancel-btn {
+    padding: 8px 15px;
+    border: 1px solid var(--lavender-3);
+    border-radius: 5px;
+    background-color: var(--lavender-1);
+    color: var(--lavender-3);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s ease;
+}
+
+.project-cancel-btn:hover,
+.task-cancel-btn:hover {
+    background-color: var(--lavender-2);
+    color: var(--lavender-1);
+}
+
+.project-confirm-btn,
+.task-confirm-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--lavender-4);
+    color: var(--lavender-1);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.project-confirm-btn:hover,
+.task-confirm-btn:hover {
+    background-color: var(--lavender-3);
+}
+
+/* ==================================== Task Card Icons ==================================== */
+
+.card-edit-task,
+.card-delete-task {
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-edit-task:hover {
+    background-color: var(--lavender-edit);
+    color: var(--lavender-1);
+}
+
+.card-delete-task:hover {
+    background-color: var(--lavender-delete);
+    color: var(--lavender-1);
+}
+
+/* ==================================== Checkbox Styling ==================================== */
+
+.task-complete {
+    accent-color: var(--lavender-4);
+}
+
+.card-task-status {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* ==================================== Responsive Design ==================================== */
+
 @media only screen and (max-width: 600px){
     .task-card {
         max-width: 50vw;
-        min-width: 100px;
+        min-width: 150px;
     }
     .bottom-row {
         display: flex;
         flex-direction: column;
         gap: 5px;
         justify-self: left;
+        align-items: flex-start;
     }
 }
