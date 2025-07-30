@@ -1,6 +1,7 @@
 import * as Projects from './projects.js';
 import * as Tasks from './tasks.js';
 import * as Storage from './storage.js';
+import { createElement } from 'react';
 
 
 const taskManager = {
@@ -24,13 +25,15 @@ const taskManager = {
 
         this.taskEdit = document.querySelector('.card-edit-task');
         this.taskDelete = document.querySelector('.card-delete-task');
+
+        this.tasksContainer = document.querySelector('.bottom');
     },
     bindEvents: function() {
         this.addTaskBtn.addEventListener("click", () => this.taskDialog.showModal());
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
     },
     render: function() {
-
+        // this.tasksContainer.innerHTML = '';
     },
 }
 
@@ -70,9 +73,48 @@ const projectManager = {
         });
     },
     render: function() {
-        this.projectsContainer.innerHTML = '';
+        // this.projectsContainer.innerHTML = '';
+        for (const proj of Projects.projects) {
+
+            const projectCard = document.createElement('a')
+            projectCard.className('custom-project')
+            projectCard.dataset.id = proj.getID();
+
+            const projectName = document.createElement('span');
+            projectName.className = 'side-project-name';
+            projectName.dataset.description = proj.getDescription() || '';
+            projectName.textContent = proj.getTitle();
+
+            const projectEdit = document.createElement('span');
+            projectEdit.className = 'side-project-edit';
+            projectEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+
+            const projectDelete = document.createElement('span');
+            projectEdit.className = 'side-project-delete';
+            projectEdit.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+            projectCard.appendChild(projectName, projectEdit, projectDelete);
+            this.projectsContainer.appendChild(projectCard);
+            this.bindProjectEvents(proj, projectCard);
+        }
     },
+    bindProjectEvents: function(proj, projectCard) {
+        const projectID = proj.getID();
+        const projEdit = projectCard.querySelector('.side-project-edit');
+        const projDelete = projectCard.querySelector('.side-project-delete');
+
+        projEdit.addEventListener('click', () => {
+            // figure out how to open the form with info in it to update it
+        });
+        
+        projDelete.addEventListener('click', () => {
+            Projects.deleteProject(projectID);
+            Storage.saveProjectsToStorage();
+            this.render();
+        });
+    }
 }
+
 
 function removeTaskFromProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
@@ -96,3 +138,5 @@ document.addEventListener('DOMContentLoaded', function() {
     taskManager.init();
     projectManager.init();
 });
+
+
