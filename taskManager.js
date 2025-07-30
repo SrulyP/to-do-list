@@ -2,6 +2,7 @@ import * as Projects from './projects.js';
 import * as Tasks from './tasks.js';
 import * as Storage from './storage.js';
 
+
 const taskManager = {
     init: function() {
         this.cacheDom();
@@ -25,16 +26,14 @@ const taskManager = {
         this.taskDelete = document.querySelector('.card-delete-task');
     },
     bindEvents: function() {
-        this.addProjectBtn.addEventListener("click", () => this.projectDialog.showModal());
-        this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
         this.addTaskBtn.addEventListener("click", () => this.taskDialog.showModal());
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
-
     },
     render: function() {
 
     },
 }
+
 
 const projectManager = {
     init: function() {
@@ -49,21 +48,28 @@ const projectManager = {
         this.projectForm = document.querySelector('.add-project-form');
         this.projectCancelBtn = document.querySelector('.project-cancel-btn');
 
-        this.sideProjectName = document.querySelector('.side-project-name');
+        this.sideProjectNames = document.querySelectorAll('.side-project-name');
         this.sideProjectEdit = document.querySelector('.side-project-edit');
         this.sideProjectDelete = document.querySelector('.side-project-delete');
         this.centerProjectName = document.querySelector('.center-project-name');
-        this.centerProjectEdit = document.querySelector('.center-project-edit');
-        this.centerProjectDelete = document.querySelector('.center-project-delete');
+        this.centerProjectDescription = document.querySelector('.center-project-description');
     },
     bindEvents: function() {
         this.addProjectBtn.addEventListener("click", () => this.projectDialog.showModal());
         this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
+        
+        this.sideProjectNames.forEach(span => {
+            span.addEventListener('click', () => {
+                this.centerProjectName.textContent = span.textContent;
+                this.centerProjectDescription.textContent = span.dataset.description;
+            });
+        });
     },
     render: function() {
 
     },
 }
+
 
 function removeTaskFromProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
@@ -75,7 +81,6 @@ function removeTaskFromProject(projectID, taskID) {
     }
 }
 
-
 function addTaskToProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
     const task = Tasks.findTaskByID(taskID)
@@ -84,5 +89,7 @@ function addTaskToProject(projectID, taskID) {
     }
 }
 
-taskManager.init();
-projectManager.init();
+document.addEventListener('DOMContentLoaded', function() {
+    taskManager.init();
+    projectManager.init();
+});
