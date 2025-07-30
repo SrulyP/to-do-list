@@ -19,23 +19,28 @@ const taskManager = {
         this.taskDialog = document.querySelector('#add-task-dialog');
         this.taskForm = document.querySelector('.add-task-form');
         this.taskCancelBtn = document.querySelector('.task-cancel-btn');
-
         this.tasksContainer = document.querySelector('.tasks-container');
     },
+
     bindEvents: function() {
         this.addTaskBtn.addEventListener("click", () => this.taskDialog.showModal());
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
     },
+
     setCurrentProject(projectID) {
         this.currentProjectID = projectID;
         this.render();
     },
+
     render: function() {
         this.tasksContainer.innerHTML = '';
     
         if (!this.currentProjectID) return;
 
-        for (const task of Projects.findProjectByID(this.currentProjectID).getTasks()) {
+        const project = Projects.findProjectByID(this.currentProjectID);
+        if (!project) return;
+
+        for (const task of project.getTasks()) {
             const taskCard = document.createElement('div')
             taskCard.className = 'task-card';
             taskCard.dataset.id = task.getID();
@@ -77,11 +82,10 @@ const taskManager = {
             deleteBtn.className = 'card-delete-task';
             deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
-
             topRow.appendChild(taskTitle);
             editAndRemove.append(editBtn, deleteBtn);
             bottomRow.append(statusLabel, priorityDiv, dateDiv, editAndRemove);
-            taskCard.append(topRow,bottomRow);
+            taskCard.append(topRow, bottomRow);
 
             this.tasksContainer.appendChild(taskCard);
         }
@@ -96,35 +100,44 @@ const projectManager = {
         this.bindEvents();
         Storage.loadProjectsFromStorage();
         this.render();
+        this.setupDefaultProject();
     },
+
     cacheDom: function() {
         this.addProjectBtn = document.querySelector("#add-project-btn");
         this.projectDialog = document.querySelector('#add-project-dialog');
         this.projectForm = document.querySelector('.add-project-form');
         this.projectCancelBtn = document.querySelector('.project-cancel-btn');
-        
         this.projectsContainer = document.querySelector('.other-projects');
+        
+        this.centerProjectName = document.querySelector('.center-project-name');
+        this.centerProjectDescription = document.querySelector('.center-project-description');
+        this.defaultProject = document.querySelector('.default');
     },
+
     bindEvents: function() {
         this.addProjectBtn.addEventListener("click", () => {
             this.projectForm.reset();
-            this.projectDialog.showModal()}
-        );
-        this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
-        
-        this.sideProjectNames.forEach(span => {
-            span.addEventListener('click', () => {
-                this.centerProjectName.textContent = span.textContent;
-                this.centerProjectDescription.textContent = span.dataset.description;
-            });
+            this.projectDialog.showModal();
         });
+        this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
     },
+    
+    setupDefaultProject: function() {
+        if (this.defaultProject) {
+            this.defaultProject.addEventListener('click', () => {
+                this.centerProjectName.textContent = 'Default';
+                this.centerProjectDescription.textContent = 'Default';
+            });
+        }
+    },
+
     render: function() {
         this.projectsContainer.innerHTML = '';
-        for (const proj of Projects.projects) {
 
-            const projectCard = document.createElement('a')
-            projectCard.className = 'custom-project'
+        for (const proj of Projects.getProjects()) {
+            const projectCard = document.createElement('a');
+            projectCard.className = 'custom-project';
             projectCard.dataset.id = proj.getID();
 
             const projectName = document.createElement('span');
@@ -146,6 +159,7 @@ const projectManager = {
             this.bindProjectEvents(proj, projectCard);
         }
     },
+
     bindProjectEvents: function(proj, projectCard) {
         const projectID = proj.getID();
         const projEdit = projectCard.querySelector('.side-project-edit');
@@ -164,13 +178,14 @@ const projectManager = {
         });
 
         projectCard.addEventListener('click', () => {
+            this.centerProjectName.textContent = proj.getTitle();
+            this.centerProjectDescription.textContent = proj.getDescription() || '';
             taskManager.setCurrentProject(projectID);
         });
     }
 }
 
 /* ========================>>>>>> Helper Functions <<<<<<======================== */
-
 
 function removeTaskFromProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
@@ -184,15 +199,13 @@ function removeTaskFromProject(projectID, taskID) {
 
 function addTaskToProject(projectID, taskID) {
     const project = Projects.findProjectByID(projectID);
-    const task = Tasks.findTaskByID(taskID)
+    const task = Tasks.findTaskByID(taskID);
     if (project && task) {
         project.pushTask(task);
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    taskManager.init();
     projectManager.init();
+    taskManager.init();
 });
-
-
