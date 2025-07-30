@@ -80,4 +80,4 @@ function getTasks() {
     return tasks;
 }
 
-export { createTask, findTaskByID, deleteTask, getTasks };
+export { createTask, findTaskByID, deleteTask, getTasks, tasks };

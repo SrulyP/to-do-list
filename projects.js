@@ -57,4 +57,4 @@ function getProjects() {
     return projects;
 }
 
-export { createProjectFactory, findProjectByID, deleteProject, getProjects }
+export { createProjectFactory, findProjectByID, deleteProject, getProjects, projects }
