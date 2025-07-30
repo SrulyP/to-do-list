@@ -19,7 +19,7 @@ function loadTasksFromStorage() {
             Tasks.tasks.push(task);
         });
     } else {
-        Tasks.tasks.push(firstTask, secondTask);
+        // Tasks.tasks.push(firstTask, secondTask);
         saveTasksToStorage();
     }
 }
