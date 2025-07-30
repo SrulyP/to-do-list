@@ -398,12 +398,14 @@ dialog::backdrop {
     justify-content: center;
 }
 
-.card-edit-task:hover {
+.card-edit-task:hover, 
+.card-delete-task:hover {
     color: var(--lavender-2);
 }
 
-.card-delete-task:hover {
-    color: var(--lavender-2);
+.card-edit-task:active, 
+.card-delete-task:active {
+    color: var(--lavender-4);
 }
 
 /* ==================================== Checkbox Styling ==================================== */
