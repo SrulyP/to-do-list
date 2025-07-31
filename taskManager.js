@@ -8,6 +8,7 @@ import * as Storage from './storage.js';
 /* ========================>>>>>> Project Manager <<<<<<======================== */
 
 const projectManager = {
+
     init: function() {
         this.cacheDom();
         this.bindEvents();
@@ -138,6 +139,8 @@ const projectManager = {
 /* ========================>>>>>> Task Manager <<<<<<======================== */
 
 const taskManager = {
+    currentEditedTask: null,
+    
     init: function() {
         this.cacheDom();
         this.bindEvents();
@@ -163,7 +166,10 @@ const taskManager = {
             }
             this.taskDialog.showModal();
         });
-        this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
+        this.taskCancelBtn.addEventListener("click", () => {
+            this.taskDialog.close();
+            this.currentEditedTask = null;
+        });
         this.taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleTaskForm();
@@ -180,13 +186,22 @@ const taskManager = {
         const taskPriority = taskFormData.get('priority');
         const taskProject = taskFormData.get('task-project');
 
-        // Create a new task using the information from the form
-        const newTask = Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
-
-        Tasks.tasks.push(newTask);
-        Storage.saveTasksToStorage();
-        Storage.saveProjectsToStorage();
-
+        if (this.currentEditedTask) {
+            const editTask = this.currentEditedTask;
+            editTask.setTitle(taskTitle);
+            editTask.setDescription(taskDesc);
+            editTask.setDueDate(taskDate);
+            editTask.setPriority(taskPriority);
+            editTask.setProject(taskProject);
+            Storage.saveTasksToStorage();
+        } else {
+            // Create a new task using the information from the form
+            const newTask = Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
+            Tasks.tasks.push(newTask);
+            Storage.saveTasksToStorage();
+            Storage.saveProjectsToStorage();
+        }
+        this.currentEditedTask = null;
         this.taskForm.reset();
         this.taskDialog.close();
     },
@@ -264,9 +279,10 @@ const taskManager = {
             deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
             // Add event listeners for edit and delete
-            editBtn.addEventListener('click', () => {
-                // TODO: Implement edit functionality
-                console.log('Edit task:', task.getID());
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.currentEditedTask = task;
+                this.openTaskEditDialog(task);
             });
 
             deleteBtn.addEventListener('click', () => {
@@ -288,6 +304,16 @@ const taskManager = {
 
             this.tasksContainer.appendChild(taskCard);
         }
+    },
+
+    openTaskEditDialog: function(task) {
+        this.taskForm['task-title'].value = task.getTitle();
+        this.taskForm['task-description'].value = task.getDescription();
+        this.taskForm['due-date'].value = task.getDueDate();
+        this.taskForm['priority'].value = task.getPriority();
+
+        this.taskDialog.showModal();
+
     },
 }
 
