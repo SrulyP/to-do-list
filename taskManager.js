@@ -64,6 +64,7 @@ const projectManager = {
             this.defaultProject.addEventListener('click', () => {
                 this.centerProjectName.textContent = 'Default';
                 this.centerProjectDescription.textContent = 'Default';
+                taskManager.setCurrentProject('default');
             });
         }
     },
@@ -172,7 +173,8 @@ const taskManager = {
         const newTask = Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
         const newTaskID = newTask.getID();
         addTaskToProject(taskProject, newTaskID);
-            
+
+        Tasks.tasks.push(newTask);
         Storage.saveTasksToStorage();
         Storage.saveProjectsToStorage();
 
@@ -214,7 +216,7 @@ const taskManager = {
             const checkbox = document.createElement('input');
             checkbox.type  = 'checkbox';
             checkbox.className = 'task-complete';
-            checkbox.checked = task.isComplete();
+            checkbox.checked = task.getCompletedStatus();
             statusLabel.append(checkbox, document.createTextNode('Complete'));
         
             const priorityDiv = document.createElement('div');
