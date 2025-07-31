@@ -296,8 +296,8 @@ const taskManager = {
         
             const priorityDiv = document.createElement('div');
             priorityDiv.className = 'card-task-priority';
-            priorityDiv.textContent = this.getPriorityText(task.getPriority());
-
+            priorityDiv.textContent = "Priority: " + this.getPriorityText(task.getPriority());
+            
             const dateDiv = document.createElement('div');
             dateDiv.className = 'card-task-due-date';
             dateDiv.textContent = task.getDueDate() || 'No date';
