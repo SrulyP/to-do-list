@@ -162,6 +162,22 @@ const taskManager = {
         this.cacheDom();
         this.bindEvents();
         Storage.loadTasksFromStorage();
+
+        // Add some initial example tasks if none exist
+        if (Tasks.tasks.length === 0) {
+            const projects = Projects.getProjects();
+            const cakeProj = projects.find(p => p.getTitle() === "Bake a cake");
+            const cookiesProj = projects.find(p => p.getTitle() === "Cookies");
+            Tasks.tasks.push(
+                Tasks.createTask("Buy ingredients", "Gather flour and sugar", "2025-08-15", 2, cakeProj ? cakeProj.getID() : "default"),
+                Tasks.createTask("Mix dough", "Mix all cake ingredients", "2026-03-23", 2, cakeProj ? cakeProj.getID() : "default"),
+                Tasks.createTask("Chill dough", "Let cookie dough rest", "2025-02-13", 1, cookiesProj ? cookiesProj.getID() : "default"),
+                Tasks.createTask("Bake cookies", "Bake at 180°C for 10 mins", "2026-01-12", 3, cookiesProj ? cookiesProj.getID() : "default"),
+                Tasks.createTask("Welcome to your To-Do List!", "Feel free to add more tasks", null, 1, "default")
+            );
+            Storage.saveTasksToStorage();
+        }
+
         this.setCurrentProject('default');
         this.render();
     },
@@ -183,7 +199,8 @@ const taskManager = {
             }
             this.taskDialog.showModal();
         });
-        this.taskCancelBtn.addEventListener("click", () => {
+        this.taskCancelBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             this.taskDialog.close();
             this.currentEditedTask = null;
         });
@@ -229,6 +246,7 @@ const taskManager = {
     },
 
     getPriorityText(priority) {
+        priority = String(priority);
         switch(priority) {
             case '1': return 'Low';
             case '2': return 'Medium';
@@ -267,7 +285,7 @@ const taskManager = {
 
             const bottomRow = document.createElement('div');
             bottomRow.className = 'bottom-row';
-  
+      
             const statusLabel = document.createElement('label');
             statusLabel.className  = 'card-task-status';
             const checkbox = document.createElement('input');
@@ -338,7 +356,6 @@ const taskManager = {
 
     },
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     projectManager.init();
