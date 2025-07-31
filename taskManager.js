@@ -270,6 +270,11 @@ const taskManager = {
             tasksToShow = Tasks.getTasks().filter(task => task.getProject() === this.currentProjectID);
         }
 
+        if (tasksToShow.length === 0) {
+            const emptyTasks = document.createElement('div');
+            emptyTasks.textContent = 'There are currently no tasks in this project. Add tasks by clicking the "Add Task" button above.'
+            this.tasksContainer.appendChild(emptyTasks);
+        }
         // Build the task cards for all the tasks in the chosen project
         for (const task of tasksToShow) {
             const taskCard = document.createElement('div')
@@ -297,7 +302,7 @@ const taskManager = {
             const priorityDiv = document.createElement('div');
             priorityDiv.className = 'card-task-priority';
             priorityDiv.textContent = "Priority: " + this.getPriorityText(task.getPriority());
-            
+
             const dateDiv = document.createElement('div');
             dateDiv.className = 'card-task-due-date';
             dateDiv.textContent = task.getDueDate() || 'No date';
