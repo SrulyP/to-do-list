@@ -317,7 +317,11 @@ const taskManager = {
             topRow.appendChild(taskTitle);
             editAndRemove.append(editBtn, deleteBtn);
             bottomRow.append(statusLabel, priorityDiv, dateDiv, editAndRemove);
-            taskCard.append(topRow, bottomRow);
+
+            const taskDescription = document.createElement('div');
+            taskDescription.className = 'card-task-description';
+            taskDescription.textContent = task.getDescription() || '';
+            taskCard.append(topRow, taskDescription, bottomRow);
 
             this.tasksContainer.appendChild(taskCard);
         }
