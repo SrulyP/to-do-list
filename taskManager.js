@@ -49,6 +49,7 @@ const projectManager = {
 
     render: function() {
         this.projectsContainer.innerHTML = '';
+        this.taskProjectDropdown.innerHTML = '<option value="default">Default</option>';
 
         for (const proj of Projects.getProjects()) {
             const projectCard = document.createElement('a');
@@ -75,7 +76,7 @@ const projectManager = {
 
             // Add the project to the dropdown menu when creating tasks
             const projectOption = document.createElement('option');
-            projectOption.value = proj.getTitle();
+            projectOption.value = proj.getID();
             projectOption.textContent = proj.getTitle();
             this.taskProjectDropdown.appendChild(projectOption);
         }
@@ -131,20 +132,24 @@ const taskManager = {
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
         this.taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const taskFormData = new FormData(this.taskForm);
-
-            const taskTitle = taskFormData.get('task-title');
-            const taskDesc = taskFormData.get('task-description');
-            const taskDate = taskFormData.get('due-date');
-            const taskPriority = taskFormData.get('priority');
-            const taskProject = taskFormData.get('task-project');
-
-            Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
-
-            this.taskForm.reset();
-            this.taskDialog.close();
+            this.handleTaskForm();
+            this.render();
         })
+    },
+
+    handleTaskForm: function() {
+        const taskFormData = new FormData(this.taskForm);
+
+        const taskTitle = taskFormData.get('task-title');
+        const taskDesc = taskFormData.get('task-description');
+        const taskDate = taskFormData.get('due-date');
+        const taskPriority = taskFormData.get('priority');
+        const taskProject = taskFormData.get('task-project');
+
+        Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
+
+        this.taskForm.reset();
+        this.taskDialog.close();
     },
 
     setCurrentProject(projectID) {
