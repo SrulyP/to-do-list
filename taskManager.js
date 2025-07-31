@@ -36,6 +36,27 @@ const projectManager = {
             this.projectDialog.showModal();
         });
         this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
+        this.projectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleProjectForm();
+            this.render();
+        });
+    },
+
+    handleProjectForm: function() {
+        const projectFormData = new FormData(this.projectForm);
+
+        const projectTitle = projectFormData.get('project-title');
+        const projectDesc = projectFormData.get('project-description');
+        
+        // Create a new project using the information from the form, then save it
+        const newProject = Projects.createProjectFactory(projectTitle, projectDesc);
+
+        Projects.projects.push(newProject);
+        Storage.saveProjectsToStorage();
+        
+        this.projectForm.reset();
+        this.projectDialog.close();
     },
     
     setupDefaultProject: function() {
@@ -51,6 +72,7 @@ const projectManager = {
         this.projectsContainer.innerHTML = '';
         this.taskProjectDropdown.innerHTML = '<option value="default">Default</option>';
 
+        // Populate the side bar with the projects
         for (const proj of Projects.getProjects()) {
             const projectCard = document.createElement('a');
             projectCard.className = 'custom-project';
@@ -146,7 +168,13 @@ const taskManager = {
         const taskPriority = taskFormData.get('priority');
         const taskProject = taskFormData.get('task-project');
 
-        Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
+        // Create a new task using the information from the form, and then add it to the project selected
+        const newTask = Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
+        const newTaskID = newTask.getID();
+        addTaskToProject(taskProject, newTaskID);
+            
+        Storage.saveTasksToStorage();
+        Storage.saveProjectsToStorage();
 
         this.taskForm.reset();
         this.taskDialog.close();
@@ -165,6 +193,7 @@ const taskManager = {
         const project = Projects.findProjectByID(this.currentProjectID);
         if (!project) return;
 
+        // Build the task cards for all the tasks in the chosen project
         for (const task of project.getTasks()) {
             const taskCard = document.createElement('div')
             taskCard.className = 'task-card';
