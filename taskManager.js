@@ -332,6 +332,7 @@ const taskManager = {
         this.taskForm['task-description'].value = task.getDescription();
         this.taskForm['due-date'].value = task.getDueDate();
         this.taskForm['priority'].value = task.getPriority();
+        this.taskForm['task-project'].value = task.getProject();
 
         this.taskDialog.showModal();
 
