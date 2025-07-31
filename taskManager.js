@@ -8,6 +8,7 @@ import * as Storage from './storage.js';
 /* ========================>>>>>> Project Manager <<<<<<======================== */
 
 const projectManager = {
+    currentEditedProject: null,
 
     init: function() {
         this.cacheDom();
@@ -53,12 +54,20 @@ const projectManager = {
         const projectTitle = projectFormData.get('project-title');
         const projectDesc = projectFormData.get('project-description');
         
-        // Create a new project using the information from the form, then save it
-        const newProject = Projects.createProjectFactory(projectTitle, projectDesc);
+         if (this.currentEditedProject) {
+            const editProject = this.currentEditedProject;
+            editProject.setTitle(projectTitle);
+            editProject.setDescription(projectDesc);
+            
+            Storage.saveProjectsToStorage();
+        } else {
+            // Create a new project using the information from the form, then save it
+            const newProject = Projects.createProjectFactory(projectTitle, projectDesc);
 
-        Projects.projects.push(newProject);
-        Storage.saveProjectsToStorage();
-        
+            Projects.projects.push(newProject);
+            Storage.saveProjectsToStorage();
+        }
+        this.currentEditedProject = null;
         this.projectForm.reset();
         this.projectDialog.close();
     },
@@ -116,7 +125,8 @@ const projectManager = {
 
         projEdit.addEventListener('click', (e) => {
             e.stopPropagation();
-            // figure out how to open the form with info in it to update it
+            this.currentEditedProject = proj;
+            this.openProjEditDialog(proj);
             this.render();
         });
 
@@ -132,6 +142,13 @@ const projectManager = {
             this.centerProjectDescription.textContent = proj.getDescription() || '';
             taskManager.setCurrentProject(projectID);
         });
+    },
+
+    openProjEditDialog: function(proj) {
+        this.projectForm['project-title'].value = proj.getTitle();
+        this.projectForm['project-description'].value = proj.getDescription();
+
+        this.projectDialog.showModal();
     }
 }
 
