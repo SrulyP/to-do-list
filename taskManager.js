@@ -4,6 +4,110 @@ import * as Projects from './projects.js';
 import * as Tasks from './tasks.js';
 import * as Storage from './storage.js';
 
+
+/* ========================>>>>>> Project Manager <<<<<<======================== */
+
+const projectManager = {
+    init: function() {
+        this.cacheDom();
+        this.bindEvents();
+        Storage.loadProjectsFromStorage();
+        this.render();
+        this.setupDefaultProject();
+    },
+
+    cacheDom: function() {
+        this.addProjectBtn = document.querySelector("#add-project-btn");
+        this.projectDialog = document.querySelector('#add-project-dialog');
+        this.projectForm = document.querySelector('.add-project-form');
+        this.projectCancelBtn = document.querySelector('.project-cancel-btn');
+        this.projectsContainer = document.querySelector('.other-projects');
+        
+        this.centerProjectName = document.querySelector('.center-project-name');
+        this.centerProjectDescription = document.querySelector('.center-project-description');
+        this.defaultProject = document.querySelector('.default');
+
+        this.taskProjectDropdown = document.querySelector('#task-project');
+    },
+
+    bindEvents: function() {
+        this.addProjectBtn.addEventListener("click", () => {
+            this.projectForm.reset();
+            this.projectDialog.showModal();
+        });
+        this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
+    },
+    
+    setupDefaultProject: function() {
+        if (this.defaultProject) {
+            this.defaultProject.addEventListener('click', () => {
+                this.centerProjectName.textContent = 'Default';
+                this.centerProjectDescription.textContent = 'Default';
+            });
+        }
+    },
+
+    render: function() {
+        this.projectsContainer.innerHTML = '';
+
+        for (const proj of Projects.getProjects()) {
+            const projectCard = document.createElement('a');
+            projectCard.className = 'custom-project';
+            projectCard.dataset.id = proj.getID();
+
+            const projectName = document.createElement('span');
+            projectName.className = 'side-project-name';
+            projectName.dataset.description = proj.getDescription() || '';
+            projectName.textContent = proj.getTitle();
+
+            const projectEdit = document.createElement('span');
+            projectEdit.className = 'side-project-edit';
+            projectEdit.dataset.id = proj.getID(); 
+            projectEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+
+            const projectDelete = document.createElement('span');
+            projectDelete.className = 'side-project-delete';
+            projectDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+            projectCard.append(projectName, projectEdit, projectDelete);
+            this.projectsContainer.appendChild(projectCard);
+            this.bindProjectEvents(proj, projectCard);
+
+            // Add the project to the dropdown menu when creating tasks
+            const projectOption = document.createElement('option');
+            projectOption.value = proj.getTitle();
+            projectOption.textContent = proj.getTitle();
+            this.taskProjectDropdown.appendChild(projectOption);
+        }
+    },
+
+    bindProjectEvents: function(proj, projectCard) {
+        const projectID = proj.getID();
+        const projEdit = projectCard.querySelector('.side-project-edit');
+        const projDelete = projectCard.querySelector('.side-project-delete');
+
+        projEdit.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // figure out how to open the form with info in it to update it
+            this.render();
+        });
+
+        projDelete.addEventListener('click', (e) => {
+            e.stopPropagation();
+            Projects.deleteProject(projectID);
+            Storage.saveProjectsToStorage();
+            this.render();
+        });
+
+        projectCard.addEventListener('click', () => {
+            this.centerProjectName.textContent = proj.getTitle();
+            this.centerProjectDescription.textContent = proj.getDescription() || '';
+            taskManager.setCurrentProject(projectID);
+        });
+    }
+}
+
+
 /* ========================>>>>>> Task Manager <<<<<<======================== */
 
 const taskManager = {
@@ -25,6 +129,22 @@ const taskManager = {
     bindEvents: function() {
         this.addTaskBtn.addEventListener("click", () => this.taskDialog.showModal());
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
+        this.taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const taskFormData = new FormData(this.taskForm);
+
+            const taskTitle = taskFormData.get('task-title');
+            const taskDesc = taskFormData.get('task-description');
+            const taskDate = taskFormData.get('due-date');
+            const taskPriority = taskFormData.get('priority');
+            const taskProject = taskFormData.get('task-project');
+
+            Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
+
+            this.taskForm.reset();
+            this.taskDialog.close();
+        })
     },
 
     setCurrentProject(projectID) {
@@ -88,102 +208,11 @@ const taskManager = {
             taskCard.append(topRow, bottomRow);
 
             this.tasksContainer.appendChild(taskCard);
+
         }
     },
 }
 
-/* ========================>>>>>> Project Manager <<<<<<======================== */
-
-const projectManager = {
-    init: function() {
-        this.cacheDom();
-        this.bindEvents();
-        Storage.loadProjectsFromStorage();
-        this.render();
-        this.setupDefaultProject();
-    },
-
-    cacheDom: function() {
-        this.addProjectBtn = document.querySelector("#add-project-btn");
-        this.projectDialog = document.querySelector('#add-project-dialog');
-        this.projectForm = document.querySelector('.add-project-form');
-        this.projectCancelBtn = document.querySelector('.project-cancel-btn');
-        this.projectsContainer = document.querySelector('.other-projects');
-        
-        this.centerProjectName = document.querySelector('.center-project-name');
-        this.centerProjectDescription = document.querySelector('.center-project-description');
-        this.defaultProject = document.querySelector('.default');
-    },
-
-    bindEvents: function() {
-        this.addProjectBtn.addEventListener("click", () => {
-            this.projectForm.reset();
-            this.projectDialog.showModal();
-        });
-        this.projectCancelBtn.addEventListener("click", () => this.projectDialog.close());
-    },
-    
-    setupDefaultProject: function() {
-        if (this.defaultProject) {
-            this.defaultProject.addEventListener('click', () => {
-                this.centerProjectName.textContent = 'Default';
-                this.centerProjectDescription.textContent = 'Default';
-            });
-        }
-    },
-
-    render: function() {
-        this.projectsContainer.innerHTML = '';
-
-        for (const proj of Projects.getProjects()) {
-            const projectCard = document.createElement('a');
-            projectCard.className = 'custom-project';
-            projectCard.dataset.id = proj.getID();
-
-            const projectName = document.createElement('span');
-            projectName.className = 'side-project-name';
-            projectName.dataset.description = proj.getDescription() || '';
-            projectName.textContent = proj.getTitle();
-
-            const projectEdit = document.createElement('span');
-            projectEdit.className = 'side-project-edit';
-            projectEdit.dataset.id = proj.getID(); 
-            projectEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
-
-            const projectDelete = document.createElement('span');
-            projectDelete.className = 'side-project-delete';
-            projectDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-
-            projectCard.append(projectName, projectEdit, projectDelete);
-            this.projectsContainer.appendChild(projectCard);
-            this.bindProjectEvents(proj, projectCard);
-        }
-    },
-
-    bindProjectEvents: function(proj, projectCard) {
-        const projectID = proj.getID();
-        const projEdit = projectCard.querySelector('.side-project-edit');
-        const projDelete = projectCard.querySelector('.side-project-delete');
-
-        projEdit.addEventListener('click', (e) => {
-            e.stopPropagation();
-            // figure out how to open the form with info in it to update it
-        });
-
-        projDelete.addEventListener('click', (e) => {
-            e.stopPropagation();
-            Projects.deleteProject(projectID);
-            Storage.saveProjectsToStorage();
-            this.render();
-        });
-
-        projectCard.addEventListener('click', () => {
-            this.centerProjectName.textContent = proj.getTitle();
-            this.centerProjectDescription.textContent = proj.getDescription() || '';
-            taskManager.setCurrentProject(projectID);
-        });
-    }
-}
 
 /* ========================>>>>>> Helper Functions <<<<<<======================== */
 
