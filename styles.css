@@ -248,6 +248,11 @@ aside {
     padding: 15px;
 }
 
+.card-task-description {
+    color: var(--lavender-3);
+    font-size: 0.8rem;
+}
+
 .task-card:hover {
     background-color: var(--lavender-3);
     border: 2px solid var(--lavender-5);
@@ -255,7 +260,7 @@ aside {
     transition: 0.2s ease;
 }
 
-.task-card:hover .top-row {
+.task-card:hover .top-row, .task-card:hover .card-task-description{
     color: var(--lavender-1);
     transition: 0.2s ease;
 }
