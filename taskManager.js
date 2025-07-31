@@ -14,6 +14,9 @@ const projectManager = {
         Storage.loadProjectsFromStorage();
         this.render();
         this.setupDefaultProject();
+        if (this.defaultProject) {
+            this.defaultProject.click();
+        }
     },
 
     cacheDom: function() {
@@ -63,7 +66,7 @@ const projectManager = {
         if (this.defaultProject) {
             this.defaultProject.addEventListener('click', () => {
                 this.centerProjectName.textContent = 'Default';
-                this.centerProjectDescription.textContent = 'Default';
+                this.centerProjectDescription.textContent = 'Default tasks';
                 taskManager.setCurrentProject('default');
             });
         }
@@ -139,6 +142,7 @@ const taskManager = {
         this.cacheDom();
         this.bindEvents();
         Storage.loadTasksFromStorage();
+        this.setCurrentProject('default');
         this.render();
     },
 
@@ -151,7 +155,14 @@ const taskManager = {
     },
 
     bindEvents: function() {
-        this.addTaskBtn.addEventListener("click", () => this.taskDialog.showModal());
+        this.addTaskBtn.addEventListener("click", () => {
+            // Set the dropdown to current project when opening dialog
+            if (this.currentProjectID) {
+                const dropdown = document.querySelector('#task-project');
+                dropdown.value = this.currentProjectID;
+            }
+            this.taskDialog.showModal();
+        });
         this.taskCancelBtn.addEventListener("click", () => this.taskDialog.close());
         this.taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -169,10 +180,8 @@ const taskManager = {
         const taskPriority = taskFormData.get('priority');
         const taskProject = taskFormData.get('task-project');
 
-        // Create a new task using the information from the form, and then add it to the project selected
+        // Create a new task using the information from the form
         const newTask = Tasks.createTask(taskTitle, taskDesc, taskDate, taskPriority, taskProject);
-        const newTaskID = newTask.getID();
-        addTaskToProject(taskProject, newTaskID);
 
         Tasks.tasks.push(newTask);
         Storage.saveTasksToStorage();
@@ -187,16 +196,32 @@ const taskManager = {
         this.render();
     },
 
+    getPriorityText(priority) {
+        switch(priority) {
+            case '1': return 'Low';
+            case '2': return 'Medium';
+            case '3': return 'Urgent';
+            default: return 'Low';
+        }
+    },
+
     render: function() {
         this.tasksContainer.innerHTML = '';
     
         if (!this.currentProjectID) return;
 
-        const project = Projects.findProjectByID(this.currentProjectID);
-        if (!project) return;
+        let tasksToShow = [];
+
+        if (this.currentProjectID === 'default') {
+            // For default project, show all tasks assigned to 'default'
+            tasksToShow = Tasks.getTasks().filter(task => task.getProject() === 'default');
+        } else {
+            // For other projects, show tasks assigned to that project
+            tasksToShow = Tasks.getTasks().filter(task => task.getProject() === this.currentProjectID);
+        }
 
         // Build the task cards for all the tasks in the chosen project
-        for (const task of project.getTasks()) {
+        for (const task of tasksToShow) {
             const taskCard = document.createElement('div')
             taskCard.className = 'task-card';
             taskCard.dataset.id = task.getID();
@@ -221,11 +246,11 @@ const taskManager = {
         
             const priorityDiv = document.createElement('div');
             priorityDiv.className = 'card-task-priority';
-            priorityDiv.textContent = task.getPriority();
+            priorityDiv.textContent = this.getPriorityText(task.getPriority());
 
             const dateDiv = document.createElement('div');
             dateDiv.className = 'card-task-due-date';
-            dateDiv.textContent = task.getDueDate();
+            dateDiv.textContent = task.getDueDate() || 'No date';
 
             const editAndRemove = document.createElement('div');
             editAndRemove.className = 'edit-and-remove';
@@ -238,37 +263,34 @@ const taskManager = {
             deleteBtn.className = 'card-delete-task';
             deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
+            // Add event listeners for edit and delete
+            editBtn.addEventListener('click', () => {
+                // TODO: Implement edit functionality
+                console.log('Edit task:', task.getID());
+            });
+
+            deleteBtn.addEventListener('click', () => {
+                Tasks.deleteTask(task.getID());
+                Storage.saveTasksToStorage();
+                this.render();
+            });
+
+            // Add event listener for checkbox
+            checkbox.addEventListener('change', () => {
+                task.setCompletedStatus();
+                Storage.saveTasksToStorage();
+            });
+
             topRow.appendChild(taskTitle);
             editAndRemove.append(editBtn, deleteBtn);
             bottomRow.append(statusLabel, priorityDiv, dateDiv, editAndRemove);
             taskCard.append(topRow, bottomRow);
 
             this.tasksContainer.appendChild(taskCard);
-
         }
     },
 }
 
-
-/* ========================>>>>>> Helper Functions <<<<<<======================== */
-
-function removeTaskFromProject(projectID, taskID) {
-    const project = Projects.findProjectByID(projectID);
-    const task = Tasks.findTaskByID(taskID);
-    if (project && task) {
-        const tasksArray = project.getTasks();
-        const index = tasksArray.indexOf(task);
-        tasksArray.splice(index, 1);
-    }
-}
-
-function addTaskToProject(projectID, taskID) {
-    const project = Projects.findProjectByID(projectID);
-    const task = Tasks.findTaskByID(taskID);
-    if (project && task) {
-        project.pushTask(task);
-    }
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     projectManager.init();
